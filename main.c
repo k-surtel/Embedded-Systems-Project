@@ -50,7 +50,6 @@ int pocisk = 18;
  while(1) {
 kanal = GetAdcChanel(ADC_CHN_7) / 10;
 
-
 LCDPutStr("==V==",y,pozycja,SMALL,WHITE,BLACK);
  if (kanal > pozycja && pozycja < 100){
 	 LCDPutStr("     ",y,pozycja,SMALL,WHITE,BLACK);
