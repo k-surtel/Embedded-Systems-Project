@@ -6,64 +6,64 @@
 #define SW_2 PIOB_SODR_P25 
 #define LCD_BACKLIGHT PIOB_SODR_P20
 
-void delay(int n) __attribute__ ((section(".fast"))); // konfiguracja delay
-void delay(int n) {
+void delay(int n) __attribute__ ((section(".fast")));
+void delay(int n){
  volatile int i;
  for(i=3000*n; i>0; i--){
  __asm__("nop");
- }
-}
+ }}
 
-void pocisk(int x){
-
-}
-
-int main() {
+int main(){
  PMC_PCER = PMC_PCER_PIOB; // w³¹czenie obs³ugi przerwañ
  PIOB_OER = AUDIO_OUT | LCD_BACKLIGHT;
  PIOB_PER = AUDIO_OUT | LCD_BACKLIGHT;
 
- int kanal;
- int w;
-
-  int x=0, y=9; // pozycja graczaq na górze
-
-  int x2= 0, y2 = 117; // pozycja graczaq na górze
- char* bufor;
+ int kanal; // potencjometr
+ 
+ int w; // ??
+ 
+ int x=0, y=9; // pozycja graczaq na górze
+ int x2= 0, y2 = 117; // pozycja graczaq na dole
+ 
+ char* bufor; // ??
+ 
  InitLCD(); //inicjalizacja LCD
  InitADC(); // inicjalizacja ADC
  LCDSettings(); //ustawienie LCD
  LCDClearScreen(); // wyczyszczenie ekranu
+ 
+ // paski zdrowia
  LCDPutStr("**********",126,0,SMALL,WHITE,BLUE);
  LCDPutStr("**********",0,0,SMALL,WHITE,BLUE);
 
+ // paski amunicji
  LCDPutStr("**********",126,70,SMALL,WHITE,RED);
  LCDPutStr("**********",0,70,SMALL,WHITE,RED);
 
 LCDPutStr("==A==",y2,x2,SMALL,WHITE,BLACK);
 
-int pozycja = 20;
+int pozycja = 20; // x gracza
 
-int pocisk = 18;
+int pocisk = 18; // y pocisku
 
-
- while(1) {
+ while(1){
 kanal = GetAdcChanel(ADC_CHN_7) / 10;
 
 LCDPutStr("==V==",y,pozycja,SMALL,WHITE,BLACK);
- if (kanal > pozycja && pozycja < 100){
+
+ if(kanal > pozycja && pozycja < 100){
 	 LCDPutStr("     ",y,pozycja,SMALL,WHITE,BLACK);
 	 pozycja+= 10;
 	 LCDPutStr("==V==",y,pozycja,SMALL,WHITE,BLACK);
   }
- else if ( kanal < pozycja && pozycja > 0){
+ else if( kanal < pozycja && pozycja > 0){
  	 LCDPutStr("     ",y,pozycja,SMALL,WHITE,BLACK);
 	 pozycja+= 10;
 	 LCDPutStr("==V==",y,pozycja,SMALL,WHITE,BLACK);
  }
 
  
- /*switch(kanal) {
+ /*switch(kanal){
  case 0:
  LCDPutStr("     ",y,x,SMALL,WHITE,BLACK);
  x = 0;
